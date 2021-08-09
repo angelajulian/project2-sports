@@ -7,7 +7,7 @@ User.init(
   {
     //Table column definitions
     id: {
-      type: DataType.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
@@ -17,7 +17,7 @@ User.init(
       allowNull: false,
     },
     email: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       validate: {
         isEmail: true,
       },
