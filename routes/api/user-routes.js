@@ -1,11 +1,13 @@
-const router = require("express");
-
-const { User } = require("../models");
+const router = require("express").Router();
+const { User } = require("../../models");
 
 // GET all users
 router.get("/", (req, res) => {
-  User.findAll()
-    .then((UserData) => res.json(UserData))
+  // Access our User model and run .findAll() method)
+  User.findAll({
+    attributes: { exclude: ["password"] },
+  })
+    .then((dbUserData) => res.json(dbUserData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -15,6 +17,7 @@ router.get("/", (req, res) => {
 // GET one user by ID
 router.get("/:id", (req, res) => {
   User.findOne({
+    attributes: { exclude: ["password"] },
     where: {
       id: req.params.id,
     },
