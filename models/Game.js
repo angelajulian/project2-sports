@@ -41,8 +41,7 @@ const {
       allowNull: false
     },
     equipments_needed: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.ARRAY,
     },
 
     location: {

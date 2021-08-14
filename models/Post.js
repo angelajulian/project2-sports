@@ -43,9 +43,6 @@ Post.init({
 time_created: {
   type: DataTypes.DATE,
   allowNull: false,
-  validate: {
-    
-  }
 },
 }, 
 {
