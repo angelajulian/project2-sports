@@ -4,7 +4,9 @@ const {
   } = require('sequelize');
   const sequelize = require('../config/connection');
   // create our Game model
-  class Game extends Model {}
+  class Game extends Model {
+
+  }
 
   Game.init({
     id: {
@@ -41,7 +43,15 @@ const {
       allowNull: false
     },
     equipments_needed: {
-      type: DataTypes.ARRAY,
+      // type: DataTypes.ARRAY(DataTypes.STRING),
+
+      type: DataTypes.STRING, 
+        get: function() {
+            return JSON.parse(this.getDataValue('equipments_needed'));
+        }, 
+        set: function(val) {
+            return this.setDataValue('equipments_needed', JSON.stringify(val));
+        }
     },
 
     location: {
@@ -61,7 +71,6 @@ const {
         key: 'id'
       }
     },
-  
   
   }, 
   {
