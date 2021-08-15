@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
       });
 });
 
-// "localhost:3001/api/post/id/27"
 
 // get games by id
 router.get('/id/:id', (req, res) => {
@@ -41,13 +40,13 @@ router.get('/id/:id', (req, res) => {
     
     if (req.session) {
       Game.create({
-        title: req.body.title,
-        post_content: req.body.post_content,
+        date: req.body.date,
+        sport_id: req.body.sport_id,
+        skill_level: req.body.skill_level,
+        equipment_needed: req.body.equipment_needed,
+        location: req.body.location,
+        gamers_needed: req.body.gamers_needed,
         user_id: req.session.user_id,
-        game_id: req.body.game_id,
-        title: req.body.title,
-        time_created: req.body.time_created
-        
       })
         .then(dbPostData => res.json(dbPostData))
         .catch(err => {
