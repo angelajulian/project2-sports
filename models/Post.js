@@ -37,7 +37,6 @@ Post.init(
         key: "id",
       },
     },
-
     time_created: {
       type: DataTypes.DATE,
       allowNull: false,
