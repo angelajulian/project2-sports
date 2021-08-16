@@ -1,29 +1,43 @@
 // import all models
-const User = require("./User");
 const Post = require("./Post");
-const Sport = require("./Sport");
-const Game = require("./Game");
+const User = require("./User");
+const SignUp = require("./SignUp");
 
-
- Post.belongsTo(User, {
-  foreignKey: "user_id",
-  onDelete: "SET NULL",
-});
-
+// create associations
 User.hasMany(Post, {
-    foreignKey: 'user_id',
-    onDelete: 'SET NULL'
-  });
-Game.hasMany(Post, {
-    foreignKey: 'game_id',
-    onDelete: "CASCADE"
+  foreignKey: "user_id",
 });
-User.hasMany(Game, {
-    foreignKey: 'user_id',
-    onDelete: "SET NULL"
+
+Post.belongsTo(User, {
+  foreignKey: "user_id",
 });
-Sport.hasMany(Game, {
-    foreignKey: 'sport_id',
-    onDelete: 'CASCADE'
-})
-module.exports = { User, Post, Sport, Game };
+
+User.belongsToMany(Post, {
+  through: SignUp,
+  as: "sign_ups",
+  foreignKey: "user_id",
+});
+
+Post.belongsToMany(User, {
+  through: SignUp,
+  as: "sign_ups",
+  foreignKey: "post_id",
+});
+
+SignUp.belongsTo(User, {
+  foreignKey: "user_id",
+});
+
+SignUp.belongsTo(Post, {
+  foreignKey: "post_id",
+});
+
+User.hasMany(SignUp, {
+  foreignKey: "user_id",
+});
+
+Post.hasMany(SignUp, {
+  foreignKey: "post_id",
+});
+
+module.exports = { User, Post, SignUp };
