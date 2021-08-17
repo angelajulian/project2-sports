@@ -1,27 +1,28 @@
 const router = require("express").Router();
-const { Post, User, SignUp, Comment } = require("../../models");
 const sequelize = require("../../config/connection");
+const { Game, User, Comment, SignUp } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 // get all users
 router.get("/", (req, res) => {
-  Post.findAll({
+  console.log("======================");
+  Game.findAll({
     attributes: [
       "id",
-      "post_url",
+      "game_locale",
       "title",
       "created_at",
       [
         sequelize.literal(
-          "(SELECT COUNT(*) FROM sign_up WHERE post.id = sign_up.post_id)"
+          "(SELECT COUNT(*) FROM signup WHERE game.id = signup.game_id)"
         ),
         "signup_count",
       ],
     ],
-    order: [["created_at", "DESC"]],
     include: [
       {
         model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+        attributes: ["id", "comment_text", "game_id", "user_id", "created_at"],
         include: {
           model: User,
           attributes: ["username"],
@@ -33,7 +34,7 @@ router.get("/", (req, res) => {
       },
     ],
   })
-    .then((dbPostData) => res.json(dbPostData))
+    .then((dbGameData) => res.json(dbGameData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -41,18 +42,18 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  Post.findOne({
+  Game.findOne({
     where: {
       id: req.params.id,
     },
     attributes: [
       "id",
-      "post_url",
+      "game_locale",
       "title",
       "created_at",
       [
         sequelize.literal(
-          "(SELECT COUNT(*) FROM sign_up WHERE post.id = sign_up.post_id)"
+          "(SELECT COUNT(*) FROM signup WHERE game.id = signup.game_id)"
         ),
         "signup_count",
       ],
@@ -60,7 +61,7 @@ router.get("/:id", (req, res) => {
     include: [
       {
         model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+        attributes: ["id", "comment_text", "game_id", "user_id", "created_at"],
         include: {
           model: User,
           attributes: ["username"],
@@ -72,12 +73,12 @@ router.get("/:id", (req, res) => {
       },
     ],
   })
-    .then((dbPostData) => {
-      if (!dbPostData) {
-        res.status(404).json({ message: "No post found with this id" });
+    .then((dbGameData) => {
+      if (!dbGameData) {
+        res.status(404).json({ message: "No game found with this id" });
         return;
       }
-      res.json(dbPostData);
+      res.json(dbGameData);
     })
     .catch((err) => {
       console.log(err);
@@ -85,31 +86,34 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
-  // expects {title: 'Taskmaster goes public!', post_content: 'https://taskmaster.com/press', user_id: 1}
-  Post.create({
+router.post("/", withAuth, (req, res) => {
+  // expects {title: 'Taskmaster goes public!', game_locale: 'https://taskmaster.com/press', user_id: 1}
+  Game.create({
     title: req.body.title,
-    post_content: req.body.post_content,
-    user_id: req.body.user_id,
+    game_locale: req.body.game_locale,
+    user_id: req.session.user_id,
   })
-    .then((dbPostData) => res.json(dbPostData))
+    .then((dbGameData) => res.json(dbGameData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
-router.put("/signup", (req, res) => {
+router.put("/signup", withAuth, (req, res) => {
   // custom static method created in models/Post.js
-  Post.signup_post(req.body, { SignUp })
-    .then((updatedPostData) => res.json(updatedPostData))
+  Game.signup(
+    { ...req.body, user_id: req.session.user_id },
+    { SignUp, Comment, User }
+  )
+    .then((updatedSignUpData) => res.json(updatedSignUpData))
     .catch((err) => {
       console.log(err);
-      res.status(400).json(err);
+      res.status(500).json(err);
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", withAuth, (req, res) => {
   Post.update(
     {
       title: req.body.title,
@@ -120,12 +124,12 @@ router.put("/:id", (req, res) => {
       },
     }
   )
-    .then((dbPostData) => {
-      if (!dbPostData) {
-        res.status(404).json({ message: "No post found with this id" });
+    .then((dbGameData) => {
+      if (!dbGameData) {
+        res.status(404).json({ message: "No game found with this id" });
         return;
       }
-      res.json(dbPostData);
+      res.json(dbGameData);
     })
     .catch((err) => {
       console.log(err);
@@ -133,18 +137,19 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
-  Post.destroy({
+router.delete("/:id", withAuth, (req, res) => {
+  console.log("id", req.params.id);
+  Game.destroy({
     where: {
       id: req.params.id,
     },
   })
-    .then((dbPostData) => {
-      if (!dbPostData) {
-        res.status(404).json({ message: "No post found with this id" });
+    .then((dbGameData) => {
+      if (!dbGameData) {
+        res.status(404).json({ message: "No game found with this id" });
         return;
       }
-      res.json(dbPostData);
+      res.json(dbGameData);
     })
     .catch((err) => {
       console.log(err);

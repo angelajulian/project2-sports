@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS pickup_db; 
+DROP DATABASE IF EXISTS newsfeed_db;
 
-CREATE DATABASE pickup_db;
+CREATE DATABASE newsfeed_db;

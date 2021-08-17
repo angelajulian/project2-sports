@@ -1,36 +1,51 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connection");
-
-// create our Post model
-class Post extends Model {
-  static signup_post(body, models) {
+// create our Game model
+class Game extends Model {
+  static signup(body, models) {
     return models.SignUp.create({
       user_id: body.user_id,
-      post_id: body.post_id,
+      game_id: body.game_id,
     }).then(() => {
-      return Post.findOne({
+      return Game.findOne({
         where: {
-          id: body.post_id,
+          id: body.game_id,
         },
-        attribudes: [
+        attributes: [
           "id",
-          "post_url",
+          "game_locale",
           "title",
           "created_at",
           [
             sequelize.literal(
-              "(SELECT COUNT(*) FROM sign_up WHERE post.id = sign_up.post_id)"
+              "(SELECT COUNT(*) FROM signup WHERE game.id = signup.game_id)"
             ),
             "signup_count",
           ],
+        ],
+        include: [
+          {
+            model: models.Comment,
+            attributes: [
+              "id",
+              "comment_text",
+              "game_id",
+              "user_id",
+              "created_at",
+            ],
+            include: {
+              model: models.User,
+              attributes: ["username"],
+            },
+          },
         ],
       });
     });
   }
 }
 
-// create fields/columns for Post model
-Post.init(
+// create fields/columns for Game model
+Game.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -42,7 +57,7 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    post_content: {
+    game_locale: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -58,8 +73,8 @@ Post.init(
     sequelize,
     freezeTableName: true,
     underscored: true,
-    modelName: "post",
+    modelName: "game",
   }
 );
 
-module.exports = Post;
+module.exports = Game;

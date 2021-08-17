@@ -1,0 +1,35 @@
+<article>
+  <a href="/dashboard"> &larr; Back to dashboard</a>
+  <h2>
+    Edit Post
+  </h2>
+  <form class="edit-game-form">
+    <div>
+      <input name="game-title" type="text" value="{{game.title}}" />
+      <span>({{format_url game.game_locale}})</span>
+    </div>
+    <div>
+      {{game.signup_count}} {{format_plural "point" game.signup_count}} by you on {{format_date game.created_at}}
+      |
+      <a href="/game/{{game.id}}">{{game.comments.length}} {{format_plural "comment" game.comments.length}}</a>
+    </div>
+    <button type="submit">Save game</button>
+    <button type="button" class="delete-game-btn">Delete game</button>
+  </form>
+</article>
+
+<form class="comment-form">
+  <div>
+    <textarea name="comment-body"></textarea>
+  </div>
+
+  <div>
+    <button type="submit">add comment</button>
+  </div>
+</form>
+
+{{> comments game.comments}}
+
+<script src="/javascript/edit-game.js"></script>
+<script src="/javascript/delete-game.js"></script>
+<script src="/javascript/comment.js"></script>

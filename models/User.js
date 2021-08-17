@@ -38,17 +38,6 @@ User.init(
         len: [4],
       },
     },
-    // area_code: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    // }
-    // },
-    // blocklist: {
-    //     type: DataTypes.ARRAY
-    //     //validate array of integers
-    // }
-    //TODO: birthdate and age gating?
-    // },
   },
   {
     hooks: {

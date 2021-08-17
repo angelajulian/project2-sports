@@ -1,0 +1,11 @@
+<article class="game">
+  <div class="title">
+    <a href="{{game_locale}}" target="_blank">{{title}}</a>
+    <span>({{format_url game_locale}})</span>
+  </div>
+  <div class="meta">
+    {{signup_count}} {{format_plural "point" signup_count}} by {{user.username}} on {{format_date created_at}}
+    |
+    <a href="/game/{{id}}">{{comments.length}} {{format_plural "comment" comments.length}}</a>
+  </div>
+</article>

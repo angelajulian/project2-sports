@@ -12,17 +12,15 @@ SignUp.init(
     },
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: "user",
         key: "id",
       },
     },
-    post_id: {
+    game_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
-        model: "post",
+        model: "game",
         key: "id",
       },
     },
@@ -32,7 +30,7 @@ SignUp.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "sign_up",
+    modelName: "signup",
   }
 );
 

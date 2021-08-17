@@ -1,1 +1,7 @@
-<div>HOME</div>
+<ol class="game-list">
+  {{#each games as |game|}}
+  <li>
+    {{> game-info game }}
+  </li>
+  {{/each}}
+</ol>

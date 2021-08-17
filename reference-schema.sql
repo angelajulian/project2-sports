@@ -26,11 +26,11 @@ Table game as G {
   user_id int [ref: > U.id] 
 }
 
-Table post as P {
+Table game as P {
   id int [pk, increment]
   user_id varchar [ref: > U.id] 
   game_id varchar [ref: > G.id]
   title varchar
-  post_content varchar
+  game_content varchar
   time_created DATE
 }

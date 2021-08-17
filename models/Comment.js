@@ -13,6 +13,10 @@ Comment.init(
     },
     comment_text: {
       type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1],
+      },
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -21,10 +25,10 @@ Comment.init(
         key: "id",
       },
     },
-    post_id: {
+    game_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: "post",
+        model: "game",
         key: "id",
       },
     },
