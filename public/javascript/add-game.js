@@ -9,6 +9,8 @@ async function newFormHandler(event) {
     body: JSON.stringify({
       title,
       game_locale,
+      max_spots,
+      sport,
     }),
     headers: {
       "Content-Type": "application/json",
