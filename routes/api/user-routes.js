@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Post } = require("../../models");
+const { User, Post, SignUp } = require("../../models");
 
 // get all users
 router.get("/", (req, res) => {
@@ -27,8 +27,8 @@ router.get("/:id", (req, res) => {
       {
         model: Post,
         attributes: ["title"],
-        through: Vote,
-        as: "voted_posts",
+        through: SignUp,
+        as: "signup_posts",
       },
     ],
   })
