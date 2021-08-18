@@ -28,7 +28,7 @@ https://github.com/sandeepdutt
 
 ### Sindhu-sp
 
-{your blurb here}
+Sindhu-sp would like to use the pickup app to see the schedule of a game according to location and pick up a game that's in a more convenient date and time and a convenient location and see how many team members are already in the team of the game choice.
 https://github.com/sindhu-sp
 
 ## INSTALLATION INSTRUCTIONS
