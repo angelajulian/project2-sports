@@ -8,7 +8,7 @@ Pick up is an app that allows users to post or join games in their area
 
 ### Ibandrew
 
-{Andrew living in Ventura coutny will deffinety use this app looking fotr a game of soccer to play on the weekends when there is not a pandemic currently going on}
+{Andrew living in Ventura county will deffinety use this app looking fotr a game of soccer to play on the weekends when there is not a pandemic currently going on}
 https://github.com/Ibandrew
 
 ### Angelajulian
