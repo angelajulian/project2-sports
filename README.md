@@ -37,12 +37,6 @@ heroku deploy URL: https://infinite-woodland-90738.herokuapp.com/
 
 Remember: Set up .env at root directory (same place as server.js and package.json) and include these three lines:
 
-<<<<<<< HEAD
-DB*NAME=pickup_db
-DB_USER=root
-DB_PW= \_whatever your local environment password*
-=======
 DB_NAME=pickup_db
 DB_USER=root
 DB_PW=whatever your local environment password is
->>>>>>> main
