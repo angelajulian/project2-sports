@@ -13,7 +13,6 @@ class User extends Model {
 // create fields/columns for User model
 User.init(
   {
-    //Table column definitions
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -26,28 +25,32 @@ User.init(
     },
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
       validate: {
         isEmail: true,
       },
-      unique: true,
-      allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        // TODO: include password complexity checks later
-        len: [6],
+        len: [4],
       },
     },
+    // area_code: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // }
+    // },
     // blocklist: {
     //     type: DataTypes.ARRAY
     //     //validate array of integers
     // }
     //TODO: birthdate and age gating?
+    // },
   },
   {
-    // TABLE CONFIGURATION OPTIONS GO HERE (https://sequelize.org/v5/manual/models-definition.html#configuration))
     hooks: {
       // set up beforeCreate lifecycle "hook" functionality
       async beforeCreate(newUserData) {
@@ -64,6 +67,7 @@ User.init(
       },
     },
     sequelize,
+    timestamps: false,
     freezeTableName: true,
     underscored: true,
     modelName: "user",
